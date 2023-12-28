@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SHARES Consent Portal</title>
+<link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600;700&display=swap" rel="stylesheet">
+<script src="https://cdn.tailwindcss.com"></script>
+<style>
+  .category-box {
+    background-color: #90EE90; /* Light green background */
+    border: 2px solid #000; /* Black border */
+    padding: 10px;
+    margin: 5px;
+    cursor: pointer;
+  }
+  .category-box.selected {
+    background-color: #FF6347; /* Red background for selected */
+  }
+  .category-box i {
+    margin-left: 5px;
+  }
+  .hidden {
+    display: none;
+  }
+</style>
+</head>
+<body class="bg-white text-black font-sans">
+<div class="container mx-auto p-4">
+  <h1 class="text-4xl font-bold text-center mb-6" style="color: #8C1D40;">SHARES Consent Portal</h1>
+  
+  <div class="mb-4">
+    <label for="patientSelect" class="block mb-2">Patient</label>
+    <select id="patientSelect" class="block w-full p-2 border">
+      <option>Patient 1</option>
+      <option>Patient 2</option>
+      <option>Patient 3</option>
+    </select>
+  </div>
+  
+  <div class="mb-4">
+    <fieldset>
+      <legend class="block mb-2">Share Medical Information</legend>
+      <label class="block mb-2">
+        <input type="radio" name="shareInfo" value="shareAll" checked>
+        I would like to share all my medical information with no exceptions.
+      </label>
+      <label class="block mb-2">
+        <input type="radio" name="shareInfo" value="denySome">
+        I would like to DENY access to certain medical information categories
+      </label>
+    </fieldset>
+  </div>
+  
+  <div id="medicalInfoSection" class="hidden mb-4">
+    <h2 class="font-semibold mb-2">Medical Information</h2>
+    <div id="categoriesGrid" class="grid grid-cols-3 gap-4">
+      <!-- Categories will be inserted here by JavaScript -->
+    </div>
+    <div id="selectedCategories" class="mt-4">
+      <h3 class="font-semibold mb-2">Preview of what you are not sharing:</h3>
+      <div id="selectedList" class="p-2 border h-32 overflow-auto">
+        <!-- Selected categories will be listed here -->
+      </div>
+    </div>
+  </div>
+  
+  <div class="mb-4">
+    <fieldset>
+      <legend class="block mb-2">Purpose of use (Consent)</legend>
+      <label class="block mb-2">
+        <input type="radio" name="purpose" value="treatment" checked>
+        Treatment - For the purpose of providing or supporting care.
+      </label>
+      <label class="block mb-2">
+        <input type="radio" name="purpose" value="research">
+        Research - For the purpose of scientific or academic research intended to benefit others.
+      </label>
+    </fieldset>
+  </div>
+  
+  <div class="mb-4 grid grid-cols-2 gap-4">
+    <div>
+      <label for="fromOrganization" class="block mb-2">From: Organization</label>
+      <select id="fromOrganization" class="block w-full p-2 border">
+        <option>SHARES Hospital</option>
+        <option>ASU Clinic</option>
+      </select>
+    </div>
+    <div>
+      <label for="toOrganization" class="block mb-2">To: Organization</label>
+      <select id="toOrganization" class="block w-full p-2 border">
+        <option>SHARES Hospital</option>
+        <option>ASU Clinic</option>
+      </select>
+    </div>
+  </div>
+  
+  <div class="mb-4">
+    <label for="practitionerSelect" class="block mb-2">Practitioner</label>
+    <select id="practitionerSelect" class="block w-full p-2 border">
+      <option>Dr. Bob</option>
+      <option>Dr. John</option>
+      <option>Dr. Bill</option>
+    </select>
+  </div>
+  
+  <div class="mb-4 grid grid-cols-2 gap-4">
+    <div>
+      <label for="startDate" class="block mb-2">Start Date</label>
+      <input type="date" id="startDate" class="block w-full p-2 border" value="2023-12-11">
+    </div>
+    <div>
+      <label for="endDate" class="block mb-2">End Date</label>
+      <input type="date" id="endDate" class="block w-full p-2 border" value="2033-12-11">
+    </div>
+  </div>
+  
+  <div class="mb-4">
+    <h2 class="font-semibold mb-2">Authorization</h2>
+    <div class="grid grid-cols-3 gap-4">
+      <input type="text" id="authName" placeholder="Name" class="p-2 border col-span-2">
+      <input type="text" id="authDate" placeholder="Date" class="p-2 border" value="2023-12-11" readonly>
+    </div>
+  </div>
+  
+  <div class="mb-4">
+    <button id="submitBtn" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+      Submit
+    </button>
+  </div>
+</div>
+
+<script>
+  const categories = [
+    'Behavioral Health', 'Demographics', 'Diagnoses', 'Disabilities', 'Genetics',
+    'Infectious diseases', 'Medications', 'Sexual and Reproductive Health',
+    'Social Determinants of Health', 'Violence'
+  ];
+  
+  const categoriesGrid = document.getElementById('categoriesGrid');
+  const selectedList = document.getElementById('selectedList');
+  const medicalInfoSection = document.getElementById('medicalInfoSection');
+  const submitBtn = document.getElementById('submitBtn');
+  
+  categories.forEach(category => {
+    const div = document.createElement('div');
+    div.className = 'category-box';
+    div.textContent = category;
+    div.addEventListener('click', function() {
+      this.classList.toggle('selected');
+      updateSelectedCategories();
+    });
+    categoriesGrid.appendChild(div);
+  });
+  
+  function updateSelectedCategories() {
+    selectedList.innerHTML = '';
+    const selected = document.querySelectorAll('.category-box.selected');
+    selected.forEach(category => {
+      const div = document.createElement('div');
+      div.textContent = category.textContent;
+      selectedList.appendChild(div);
+    });
+  }
+  
+  document.querySelectorAll('input[name="shareInfo"]').forEach(radio => {
+    radio.addEventListener('change', function() {
+      if (this.value === 'denySome') {
+        medicalInfoSection.classList.remove('hidden');
+      } else {
+        medicalInfoSection.classList.add('hidden');
+      }
+    });
+  });
+  
+  submitBtn.addEventListener('click', function() {
+    alert('The form has been successfully submitted.');
+  });
+</script>
+</body>
+</html>
