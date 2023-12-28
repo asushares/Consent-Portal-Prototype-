@@ -144,10 +144,25 @@
       'Social Determinants of Health', 'Violence'
     ];
 
+    const selectedCategoriesDiv = document.getElementById('selectedCategories');
+    const shareInfoRadios = document.querySelectorAll('input[name="shareInfo"]');
+
     const categoriesGrid = document.getElementById('categoriesGrid');
     const selectedList = document.getElementById('selectedList');
     const medicalInfoSection = document.getElementById('medicalInfoSection');
     const submitBtn = document.getElementById('submitBtn');
+
+    shareInfoRadios.forEach(radio => {
+      radio.addEventListener('change', function() {
+        if (this.value === 'denySome') {
+          medicalInfoSection.classList.remove('hidden');
+          selectedCategoriesDiv.classList.remove('hidden');
+        } else {
+          medicalInfoSection.classList.add('hidden');
+          selectedCategoriesDiv.classList.add('hidden');
+        }
+      });
+    });
 
     categories.forEach(category => {
       const div = document.createElement('div');
