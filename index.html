@@ -39,7 +39,7 @@
     <img src="https://www.asushares.com/wp-content/uploads/2023/09/SHARES-logo.png" alt="SHARES Logo" class="header-logo" />
     <h1 class="text-4xl font-bold mb-6" style="color: #8C1D40;">SHARES Consent Portal</h1>
   </div>
-  <h1 class="text-4xl font-bold text-center mb-6" style="color: #8C1D40;">SHARES Consent Portal</h1>
+  <h1 class="text-4xl font-bold text-center mb-6" style="color: #8C1D40;">Patient Registration</h1>
   <!-- Patient Selection Section -->
   <div class="mb-4">
     <label for="patientSelect" class="block mb-2">Patient</label>
@@ -174,6 +174,20 @@
       'Social Determinants of Health', 'Violence'
     ];
 
+    const categoryDetails = {
+      'Behavioral Health': 'Bipolar disorder (13746004)',
+      'Diagnoses': 'Cardiac arrest (410429000)',
+      'Medications': 'Hydrocodone (372671002)',
+      'Social Determinants of Health': 'Obesity (414916001)',
+      'Demographics': 'Unemployed (LP133912-8)',
+      'Disabilities': 'Attention deficit hyperactivity disorder (406506008)',
+      'Infectious diseases': 'Bacterial cellulitis (402929007)',
+      'Sexual and Reproductive Health': 'Hepatitis B (75410-1)',
+      'Violence': 'Motor vehicle accident victim (127348004)',
+      'Genetics': 'Genetic Test (405824009)'
+    };
+    
+
     const selectedCategoriesDiv = document.getElementById('selectedCategories');
     const shareInfoRadios = document.querySelectorAll('input[name="shareInfo"]');
 
@@ -217,11 +231,14 @@
       selectedList.innerHTML = '';
       const selected = document.querySelectorAll('.category-box.selected');
       selected.forEach(category => {
+        const categoryText = category.textContent;
+        const detailText = categoryDetails[categoryText] || 'No additional information';
         const div = document.createElement('div');
-        div.textContent = category.textContent;
+        div.textContent = `${categoryText}: ${detailText}`;
         selectedList.appendChild(div);
       });
     }
+    
 
     document.querySelectorAll('input[name="shareInfo"]').forEach(radio => {
       radio.addEventListener('change', function() {
