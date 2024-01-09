@@ -118,16 +118,19 @@
     </select>
   </div>
   
-  <div class="mb-4 grid grid-cols-2 gap-4">
-    <div>
-      <label for="startDate" class="block mb-2">Start Date</label>
-      <input type="date" id="startDate" class="block w-full p-2 border" value="2023-12-11">
+  <div class="mb-4">
+    <h2 class="font-semibold mb-2">Effective Period</h2>
+    <div class="grid grid-cols-2 gap-4">
+      <div>
+        <label for="startDate" class="block mb-2">Start Date</label>
+        <input type="date" id="startDate" class="block w-full p-2 border">
+      </div>
+      <div>
+        <label for="endDate" class="block mb-2">End Date</label>
+        <input type="date" id="endDate" class="block w-full p-2 border">
+      </div>
     </div>
-    <div>
-      <label for="endDate" class="block mb-2">End Date</label>
-      <input type="date" id="endDate" class="block w-full p-2 border" value="2033-12-11">
-    </div>
-  </div>
+  </div>  
   
   <div class="mb-4">
     <h2 class="font-semibold mb-2">Authorization</h2>
@@ -147,6 +150,21 @@
   <!-- Please add the rest of your form elements here as in your original code -->
 
   <script>
+    window.onload = function() {
+      var today = new Date();
+      var endDate = new Date();
+      endDate.setFullYear(today.getFullYear() + 10);
+  
+      var dd = String(today.getDate()).padStart(2, '0');
+      var mm = String(today.getMonth() + 1).padStart(2, '0'); //January is 0!
+      var yyyy = today.getFullYear();
+  
+      today = yyyy + '-' + mm + '-' + dd;
+      var tenYearsLater = endDate.getFullYear() + '-' + mm + '-' + dd;
+  
+      document.getElementById('startDate').value = today;
+      document.getElementById('endDate').value = tenYearsLater;
+    };
     const unlockIcon = 'data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyNCIgaGVpZ2h0PSIyNCIgdmlld0JveD0iMCAwIDI0IDI0IiBmaWxsPSJub25lIiBzdHJva2U9ImN1cnJlbnRDb2xvciIgc3Ryb2tlLXdpZHRoPSIyIiBzdHJva2UtbGluZWNhcD0icm91bmQiIHN0cm9rZS1saW5lam9pbj0icm91bmQiIGNsYXNzPSJsdWNpZGUgbHVjaWRlLXVubG9jayI+PHJlY3Qgd2lkdGg9IjE4IiBoZWlnaHQ9IjExIiB4PSIzIiB5PSIxMSIgcng9IjIiIHJ5PSIyIi8+PHBhdGggZD0iTTcgMTFWN2E1IDUgMCAwIDEgOS45LTEiLz48L3N2Zz4=';
     const lockIcon = 'data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyNCIgaGVpZ2h0PSIyNCIgdmlld0JveD0iMCAwIDI0IDI0IiBmaWxsPSJub25lIiBzdHJva2U9ImN1cnJlbnRDb2xvciIgc3Ryb2tlLXdpZHRoPSIyIiBzdHJva2UtbGluZWNhcD0icm91bmQiIHN0cm9rZS1saW5lam9pbj0icm91bmQiIGNsYXNzPSJsdWNpZGUgbHVjaWRlLWxvY2siPjxyZWN0IHdpZHRoPSIxOCIgaGVpZ2h0PSIxMSIgeD0iMyIgeT0iMTEiIHJ4PSIyIiByeT0iMiIvPjxwYXRoIGQ9Ik03IDExVjdhNSA1IDAgMCAxIDEwIDB2NCIvPjwvc3ZnPg==';
 
